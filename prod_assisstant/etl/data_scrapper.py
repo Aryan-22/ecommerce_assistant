@@ -14,11 +14,21 @@ class FlipkartScarper:
         os.makedirs(self.output_dir, exist_ok=True)
 
     def get_top_reviews(self,product_url,count = 2):
+        """
+        get top reviews from a product page.
+        """
+
         pass
 
     def scrape_flipkart_products(self,query,max_products=1,review_count=2):
+        """
+        Scrape top reviews from a Flipkart based on search query.
+        """
         pass
 
     def save_to_csv(self,data,filename):
+        """
+        save the scraped product reviews to a csv file.
+        """
         pass
 
