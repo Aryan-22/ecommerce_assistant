@@ -127,7 +127,7 @@ class AgenticRAG:
         result = self.app.invoke({"messages": [HumanMessage(content=query)]},
                                  config={"configurable": {"thread_id": thread_id}})
         return result["messages"][-1].content
-    
+        
         # function call with be asscoiate
         # you will get some score
         # put condition behalf on that score
