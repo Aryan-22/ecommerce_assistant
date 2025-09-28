@@ -87,16 +87,22 @@ if __name__=='__main__':
     
     retrieved_docs = retriever_obj.call_retriever(user_query)
     
+    def _format_docs(self, docs) -> str:
+        if not docs:
+            return "No relevant documents found."
+        formatted_chunks = []
+        for d in docs:
+            meta = d.metadata or {}
+            formatted = (
+                f"Title: {meta.get('product_title', 'N/A')}\n"
+                f"Price: {meta.get('price', 'N/A')}\n"
+                f"Rating: {meta.get('rating', 'N/A')}\n"
+                f"Reviews:\n{d.page_content.strip()}"
+            )
+            formatted_chunks.append(formatted)
+        return "\n\n---\n\n".join(formatted_chunks)
 
-    def _format_doc(d) -> str:
-        meta = getattr(d, "metadata", {}) or {}
-        return (
-            f"Title: {meta.get('product_title', 'N/A')}\n"
-            f"Price: {meta.get('price', 'N/A')}\n"
-            f"Rating: {meta.get('rating', 'N/A')}\n"
-            f"Reviews:\n{getattr(d, 'page_content', '').strip()}"
-        )
-    retrieved_contexts = [_format_doc(doc) for doc in retrieved_docs]
+    retrieved_contexts = [_format_docs(retrieved_docs)]
     
     #this is not an actual output this have been written to test the pipeline
     response="iphone 16 plus, iphone 16, iphone 15 are best phones under 1,00,000 INR."
