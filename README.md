@@ -207,22 +207,6 @@ except Exception as e:
 - `scrapper_ui.py`: Streamlit scraping interface
 - `get_lib_versions.py`: Check installed package versions
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 🆘 Support
-
-For issues and questions:
-- Check the logs in the `logs/` directory
-- Review the configuration in `config.yaml`
-- Ensure all environment variables are set correctly
-- Verify API keys and database connectivity
-
 ---
 
-**Built with ❤️ using LangChain, Streamlit, and modern AI technologies**
+**Built with using LangChain, Streamlit, and modern AI technologies**
