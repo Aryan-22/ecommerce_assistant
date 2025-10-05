@@ -22,7 +22,7 @@ app.add_middleware(
 
 @app.get("/",response_class = HTMLResponse)
 async def index(request: Request):
-    return templates.TemplateRespnse("chat.html",{"request":request})
+    return templates.TemplateResponse("chat.html",{"request":request})
 
 @app.post("/get")
 async def chat(msg:str = Form(...)):
