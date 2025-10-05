@@ -92,7 +92,7 @@ class AgenticRAG:
         print("--- WEB SEARCH (MCP) ---")
         query = state["messages"][-1].content
         tool = next(t for t in self.mcp_tools if t.name == "web_search")
-        result = await tool.ainvoke({"query": query})  # ✅
+        result = await tool.ainvoke({"query": query}) 
         context = result if result else "No data from web"
         return {"messages": [HumanMessage(content=context)]}
 
@@ -178,7 +178,7 @@ class AgenticRAG:
         result = await self.app.ainvoke(
             {"messages": [HumanMessage(content=query)]},
             config={"configurable": {"thread_id": thread_id}}
-        )
+        )   
         return result["messages"][-1].content
 
 # ---------- Standalone Test ----------

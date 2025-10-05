@@ -1,39 +1,39 @@
 import asyncio
 from langchain_mcp_adapters.client import MultiServerMCPClient
+asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 async def main():
-    client = MultiServerMCPClient(
-        {
-            "hybrid_search":{
-                "command":"python",
-                "args":[r"C:\Users\aryan\ecommerce_assistant\prod_assistant\mcp_servers\product_search_server.py"
-                ],
-                "transport":"stdio",
-
-            }
+    client = MultiServerMCPClient({
+        "hybrid_search": {   # server name
+            "command": "python",
+            "args": [
+                r"C:\Users\aryan\ecommerce_assistant\prod_assistant\mcp_servers\product_search_server.py"
+            ],  # absolute path
+            "transport": "stdio",
         }
-    
+    })
 
-    )
+    # Discover tools
     tools = await client.get_tools()
-    print("aAvailable tools:", [tool.name for tool in tools])
-    
-    #Pick tools by name
+    print("Available tools:", [t.name for t in tools])
+
+    # Pick tools by name
     retriever_tool = next(t for t in tools if t.name == "get_product_info")
     web_tool = next(t for t in tools if t.name == "web_search")
 
-    #--------Try Retriever Tool--------
-    query = "What is the price of iphone 14?"
-    retriever_results = await retriever_tool.anvoke({"query":query})
-    print("\Retriever Result:", retriever_results)
-    
+    # --- Step 1: Try retriever first ---
+    #query = "Samsung Galaxy S25 price"
+    # query = "iPhone 15"
+    query = "iPhone 17?"
+    retriever_result = await retriever_tool.ainvoke({"query": query})
+    print("\nRetriever Result:\n", retriever_result)
 
-    #--------If retriever fails try Web search tool--------
-    if not retriever_results.strip() or "No relevant product data found." in retriever_results:
-        print("Retriever returned no data, trying web search...")
-        web_results = await web_tool.invoke({"query":query})
-        print("\nWeb Search Result:", web_results)
+    # --- Step 2: Fallback to web search if retriever fails ---
+    if not retriever_result.strip() or "No relevant documents found." in retriever_result:
+        
+        print("\n No local results, falling back to web search...\n")
+        web_result = await web_tool.ainvoke({"query": query})
+        print("Web Search Result:\n", web_result)
 
 if __name__ == "__main__":
     asyncio.run(main())
-

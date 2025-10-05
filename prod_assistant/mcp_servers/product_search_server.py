@@ -41,7 +41,7 @@ async def get_product_info(query: str) -> str:
         docs = retriever.invoke(query)
         context = _format_docs(retriever_obj, docs)
         if not context.strip():
-            return "No relevant product data found."
+            return "No relevant documents found."
         return context
     
     except Exception as e:
